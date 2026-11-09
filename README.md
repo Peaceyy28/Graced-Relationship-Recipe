@@ -133,7 +133,6 @@ The private administration portal is accessible directly via URL:
 | :--- | :--- |
 | **Admin URL** | `http://localhost:5173/admin/login` |
 | **Email** | `sentannie@gmail.com` *(or `admin@gracedrelationships.com`)* |
-| **Password** | `graced2026` |
 | **Access Level** | Full CMS: Create, Schedule, Edit, Delete, Analytics |
 
 > [!NOTE]
