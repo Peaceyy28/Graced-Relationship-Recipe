@@ -137,8 +137,15 @@
   margin-bottom: 4rem;
 }
 
-.detail-body p {
-  margin-bottom: 1.75rem;
+.detail-paragraph {
+  margin-bottom: 1.85rem;
+  line-height: 1.95;
+}
+
+.detail-paragraph br {
+  display: block;
+  content: "";
+  margin-top: 0.45rem;
 }
 
 .detail-blessing-card {

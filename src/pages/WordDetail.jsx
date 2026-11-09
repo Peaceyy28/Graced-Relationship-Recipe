@@ -107,10 +107,17 @@ export default function WordDetail() {
             </div>
           </div>
 
-          {/* Detailed Write-up Body */}
+          {/* Detailed Write-up Body with Full Line-Break Preservation */}
           <div className="detail-body">
-            {post.content.split('\n\n').map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
+            {post.content.split(/\n\s*\n/).map((paragraph, index) => (
+              <p key={index} className="detail-paragraph">
+                {paragraph.split('\n').map((line, lineIdx) => (
+                  <span key={lineIdx}>
+                    {line}
+                    {lineIdx < paragraph.split('\n').length - 1 && <br />}
+                  </span>
+                ))}
+              </p>
             ))}
           </div>
 

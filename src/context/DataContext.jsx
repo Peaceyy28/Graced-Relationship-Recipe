@@ -4,10 +4,10 @@ import { initialPosts, initialVideos, initialSettings, initialAnalytics } from '
 const DataContext = createContext(null);
 
 const STORAGE_KEYS = {
-  POSTS: 'grr_posts_v5',
-  VIDEOS: 'grr_videos_v5',
-  SETTINGS: 'grr_settings_v5',
-  ANALYTICS: 'grr_analytics_v5'
+  POSTS: 'grr_posts_v6',
+  VIDEOS: 'grr_videos_v6',
+  SETTINGS: 'grr_settings_v6',
+  ANALYTICS: 'grr_analytics_v6'
 };
 
 export function DataProvider({ children }) {
