@@ -42,8 +42,7 @@
 ## 2. Administrator Dashboard Demo
 
 * **Admin Login URL:** [http://localhost:5173/admin/login](http://localhost:5173/admin/login)
-* **Demo Email:** `admin@gracerelationships.com`
-* **Demo Password:** `grace2026`
+* **Access Credentials:** Provided privately and securely by the owner via direct message.
 
 ### Key Features to Demonstrate to the Owner:
 * **Overview:** Live counter cards (Total Published, Saved Drafts, Total Videos) and recent entries table.

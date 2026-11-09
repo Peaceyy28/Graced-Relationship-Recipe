@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Lock, Mail, ArrowRight, Shield, AlertCircle, Heart } from 'lucide-react';
+import { Lock, Mail, ArrowRight, AlertCircle, Heart } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import './Admin.css';
 
 export default function AdminLogin() {
-  const [email, setEmail] = useState('sentannie@gmail.com');
-  const [password, setPassword] = useState('graced2026');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -23,10 +23,10 @@ export default function AdminLogin() {
       if (result.success) {
         navigate('/admin');
       } else {
-        setError(result.error || 'Failed to authenticate');
+        setError(result.error || 'Invalid administrator credentials');
       }
     } catch {
-      setError('An error occurred during sign in');
+      setError('An error occurred during authentication');
     } finally {
       setLoading(false);
     }
@@ -40,7 +40,7 @@ export default function AdminLogin() {
             <Heart size={24} fill="#ffffff" color="#ffffff" />
           </div>
           <h2>Administrator Portal</h2>
-          <p>Graced Relationship Recipes Content Management</p>
+          <p>Graced Relationship Recipes Management</p>
         </div>
 
         {error && (
@@ -61,7 +61,8 @@ export default function AdminLogin() {
                 required 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@gracerelationships.com"
+                placeholder="Enter administrator email"
+                autoComplete="email"
               />
             </div>
           </div>
@@ -76,7 +77,8 @@ export default function AdminLogin() {
                 required 
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
+                placeholder="Enter password"
+                autoComplete="current-password"
               />
             </div>
           </div>
@@ -87,17 +89,8 @@ export default function AdminLogin() {
           </button>
         </form>
 
-        <div className="demo-credentials-helper">
-          <Shield size={16} />
-          <div>
-            <strong>Client Demo Credentials:</strong>
-            <p>Email: <code>admin@gracerelationships.com</code></p>
-            <p>Password: <code>grace2026</code></p>
-          </div>
-        </div>
-
         <div className="back-to-site">
-          <Link to="/">← Return to Public Website</Link>
+          <Link to="/">← Return to Public Sanctuary</Link>
         </div>
       </div>
     </div>
