@@ -10,21 +10,21 @@
 
 > *"And over all these virtues put on love, which binds them all together in perfect unity."* — Colossians 3:14
 
-**Built for The Sent TV.** Graced Relationship Recipes is the digital platform for **Anuoluwapo Oluwagbayela Serah** (Chartered Accountant, entrepreneur, and drama minister), bridging evangelical media productions, purpose-driven counseling, and daily spiritual habit-building.
+**Built for The Sent TV.** Graced Relationship Recipes is the digital platform for **Anuoluwapo Oluwagbayela Serah** (Chartered Accountant, entrepreneur, and drama minister), bridging faith-based video productions, purpose-driven counseling, and daily spiritual habit-building.
 
 ---
 
-## The Problem and Who It Is For
+## The problem and who it is for
 
-**Audience:** Christian singles, courting couples, married partners, and youths seeking purpose-driven relationships.
+**Users:** Christian singles preparing for courtship, courting couples, married partners, and youths seeking purpose-driven relationships.
 
-Navigating modern relationships often leaves individuals overwhelmed by worldly advice, emotional burnout, and superficial dating trends that ignore God's blueprint. The original **Grace Relationship Recipes** ministry began as a Blogger archive of faithful devotionals, but lacked interactive engagement, mobile habit-tracking, integrated video streaming, and automated content scheduling.
+Navigating modern relationships often leaves individuals overwhelmed by worldly advice, emotional burnout, and superficial dating culture that ignores God's structural design. The original **Grace Relationship Recipes** ministry began as a Blogger archive of faithful devotionals, but lacked interactive engagement, mobile habit-tracking, integrated video streaming, and automated content scheduling.
 
 **Graced Relationship Recipes** revamps the entire ministry into a full-stack, local-first web sanctuary designed to anchor hearts in covenant grace.
 
 ---
 
-## What Graced Relationship Recipes Does
+## What Graced Relationship Recipes does
 
 Visitors enter an editorial, distraction-free sanctuary with three core pillars:
 
@@ -34,7 +34,7 @@ Visitors enter an editorial, distraction-free sanctuary with three core pillars:
 
 ---
 
-## How It Works Under The Hood
+## How it works under the hood
 
 ```mermaid
 flowchart TD
@@ -44,16 +44,17 @@ flowchart TD
     B -->|"/word-for-the-day"| D["Devotional Sanctuary<br/>Real-Time Filter Pills + Live Search"]
     B -->|"/daily-exercise"| E["365-Day Exercise Engine<br/>Day-of-Year Hash Algorithm"]
     B -->|"/videos"| F["The Sent TV Catalog<br/>Direct YouTube Thumbnails & Plays"]
-    B -->|"/contact"| G["Direct Inbox Dispatch<br/>Formspree API + Gmail Mailto"]
+    B -->|"/contact"| G["Direct Inbox Dispatch<br/>Formspree API + Native Mailto"]
     
     E --> H["Calculate dayOfYear (1–365)<br/>Deterministically loads day's challenge"]
-    H --> I["User solves activity<br/>Increments local streak (localStorage)"]
+    H --> I["User completes exercise<br/>Increments local streak (localStorage)"]
     
-    C & D & F --> J["Real-Time Analytics Hook<br/>Tracks reads, shares & clicks"]
+    C & D & F --> J["Real-Time Analytics Hook<br/>Tracks reads, shares & video clicks"]
     J --> K["Admin Dashboard (/admin)<br/>Audience Insights + Post Scheduler"]
 ```
 
 The 365-day exercise rotation requires **zero ongoing maintenance**:
+
 ```javascript
 // Deterministic calendar day mapping (1–365)
 const dayOfYear = Math.floor((today - startOfYear) / 86400000);
@@ -62,7 +63,7 @@ const todaysExercise = dailyExercises[dayOfYear % 365];
 
 ---
 
-## Platform Features & Capabilities
+## Platform features and capabilities
 
 | Module | Feature | Implementation | Notes |
 | :--- | :--- | :--- | :--- |
@@ -78,60 +79,28 @@ const todaysExercise = dailyExercises[dayOfYear % 365];
 
 ---
 
-## Project Structure
+## Repository layout
 
 ```text
 graced-relationship-recipes/
-├── docs/                      # Architectural specs & client guides
-│   ├── PRD.md                 # Product Requirements Document
-│   └── CLIENT_GUIDE.md        # Client feature walkthrough
-├── public/                    # Production static assets
-│   ├── _redirects             # Netlify SPA redirect configuration
-│   ├── anuoluwapo.jpeg        # Official portrait of Anuoluwapo
-│   └── favicon.svg            # Custom royal heart favicon
+├── docs/                  # PRD and client handover walkthrough
+├── public/                # Static assets, official portrait, SPA redirects
 ├── src/
-│   ├── components/            # Reusable interface components
-│   │   ├── DailyExerciseCard.jsx  # Interactive 365-day exercise card
-│   │   ├── Footer.jsx             # Site footer with Colossians 3:14 quote
-│   │   ├── Navbar.jsx             # Frosted glass responsive header
-│   │   ├── VideoCard.jsx          # The Sent TV YouTube card
-│   │   ├── WisdomTicker.jsx       # Continuous animated scripture ribbon
-│   │   ├── WordCard.jsx           # Devotional card with WhatsApp copy
-│   │   └── YoutubeIcon.jsx        # Standalone SVG brand icon
-│   ├── context/               # Global state providers
-│   │   ├── AuthContext.jsx        # Admin session management & credentials
-│   │   ├── DataContext.jsx        # Devotionals, videos, analytics & scheduler
-│   │   └── StreakContext.jsx      # Visitor daily streak persistence
-│   ├── data/                  # Static data & exercise banks
-│   │   ├── dailyExercises.js      # Full 365-day exercise library
-│   │   └── initialData.js         # Real devotionals, videos & settings
-│   ├── pages/                 # Public route views
-│   │   ├── About.jsx              # Founder bio & ministry pillars
-│   │   ├── Contact.jsx            # Contact form with direct inbox delivery
-│   │   ├── DailyExercisePage.jsx  # Dedicated game room
-│   │   ├── Home.jsx               # Asymmetric editorial hero & features
-│   │   ├── Videos.jsx             # The Sent TV video directory
-│   │   ├── WordDetail.jsx         # Full reading sanctuary view
-│   │   ├── WordForTheDay.jsx      # Devotional repository & search
-│   │   └── admin/                 # Private Content Management System
-│   │       ├── AdminAnalytics.jsx # Live audience metrics & discovery
-│   │       ├── AdminLayout.jsx    # Sidebar with mobile drawer toggle
-│   │       ├── AdminLogin.jsx     # Strict admin authentication
-│   │       ├── AdminOverview.jsx  # Dashboard metrics & quick actions
-│   │       ├── AdminPosts.jsx     # Post editor, scheduler & Bible fetch
-│   │       ├── AdminSettings.jsx  # Ministry metadata & contact config
-│   │       └── AdminVideos.jsx    # Video curation & YouTube manager
-│   ├── App.jsx                # Application routes & layout bindings
-│   ├── index.css              # Editorial theme variables, fonts & tokens
-│   └── main.jsx               # Application entry point
-├── vercel.json                # Vercel SPA rewrite configuration
-├── vite.config.js             # Vite configuration
-└── README.md                  # Project documentation
+│   ├── components/        # Reusable UI (Navbar, Footer, 365 Exercise Card, VideoCard)
+│   ├── context/           # State providers (AuthContext, DataContext, StreakContext)
+│   ├── data/              # 365 daily exercises bank & curated devotionals
+│   ├── pages/             # Public sanctuary routes (Home, Word, Videos, About, Contact)
+│   │   └── admin/         # Private CMS (Overview, Posts Scheduler, Analytics, Settings)
+│   ├── App.jsx            # Route definitions & layout wrappers
+│   └── index.css          # Design system, CSS variables & typography tokens
+├── vercel.json            # Vercel SPA rewrite configuration
+├── vite.config.js         # Vite bundler configuration
+└── README.md              # Project documentation
 ```
 
 ---
 
-## Reproducible Local Setup (about 2 minutes)
+## Reproducible local setup (about 2 minutes)
 
 Prerequisites: **Node.js 18+** and **npm 9+**.
 
@@ -156,7 +125,7 @@ npm run build
 
 ---
 
-## Administrator Access & Credentials
+## Administrator access and credentials
 
 The private administration portal is accessible directly via URL:
 
@@ -172,7 +141,7 @@ The private administration portal is accessible directly via URL:
 
 ---
 
-## Ministry Attribution & Engineering Credits
+## Engineering and ministry attribution
 
 * **Visionary & Author:** **Anuoluwapo Oluwagbayela Serah**  
   *Chartered Accountant, Entrepreneur, Drama Minister, and Founder of The Sent TV.*  
