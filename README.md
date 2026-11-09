@@ -40,14 +40,13 @@ Visitors enter an editorial, distraction-free sanctuary with three core pillars:
 flowchart TD
     A["Visitor Arrives<br/>(Mobile or Desktop)"] --> B{"Current Route"}
     
-    B -->|"/"| C["Home Page<br/>Editorial Hero + Wisdom Ticker<br/>Featured Word + Video Spotlight"]
+    B -->|"/"| C["Home Page<br/>Editorial Hero + Wisdom Ticker<br/>365-Day Daily Exercise Engine<br/>Featured Word + Video Spotlight"]
     B -->|"/word-for-the-day"| D["Devotional Sanctuary<br/>Real-Time Filter Pills + Live Search"]
-    B -->|"/daily-exercise"| E["365-Day Exercise Engine<br/>Day-of-Year Hash Algorithm"]
     B -->|"/videos"| F["The Sent TV Catalog<br/>Direct YouTube Thumbnails & Plays"]
     B -->|"/contact"| G["Direct Inbox Dispatch<br/>Formspree API + Native Mailto"]
     
-    E --> H["Calculate dayOfYear (1–365)<br/>Deterministically loads day's challenge"]
-    H --> I["User completes exercise<br/>Increments local streak (localStorage)"]
+    C --> H["Deterministic Day Engine (1–365)<br/>Starts at Day 1 on Launch & Cycles Midnight"]
+    H --> I["User Completes Daily Exercise<br/>Increments Local Streak (localStorage)"]
     
     C & D & F --> J["Real-Time Analytics Hook<br/>Tracks reads, shares & video clicks"]
     J --> K["Admin Dashboard (/admin)<br/>Audience Insights + Post Scheduler"]
@@ -56,9 +55,9 @@ flowchart TD
 The 365-day exercise rotation requires **zero ongoing maintenance**:
 
 ```javascript
-// Deterministic calendar day mapping (1–365)
-const dayOfYear = Math.floor((today - startOfYear) / 86400000);
-const todaysExercise = dailyExercises[dayOfYear % 365];
+// Deterministic calendar launch anchor (Day 1 at launch, cycles midnight)
+const diffDays = Math.floor((currentMidnight - LAUNCH_DATE_MS) / 86400000);
+const todaysExercise = dailyExercises[Math.max(0, diffDays) % 365];
 ```
 
 ---

@@ -6820,14 +6820,14 @@ export const dailyExercises = [
   }
 ];
 
-// Automatically determines today's exercise based on calendar day of year (1-365)
-export function getDailyExercise(date = new Date()) {
-  const start = new Date(date.getFullYear(), 0, 0);
-  const diff = (date - start) + ((start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000);
-  const oneDay = 1000 * 60 * 60 * 24;
-  const dayOfYear = Math.floor(diff / oneDay);
+// Anchor launch date: Monday, November 9, 2026 starts cleanly at Day 1 (index 0)
+const LAUNCH_DATE_MS = new Date('2026-11-09T00:00:00').getTime();
 
-  // 1-based index mapped into 0-indexed 365 array
-  const index = Math.max(0, Math.min(dailyExercises.length - 1, (Math.abs(dayOfYear) - 1) % dailyExercises.length));
+export function getDailyExercise(date = new Date()) {
+  const currentMidnight = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+  const diffDays = Math.floor((currentMidnight - LAUNCH_DATE_MS) / (1000 * 60 * 60 * 24));
+
+  // Starts cleanly at Day 1 (index 0) on launch, then increments every midnight for 365 days
+  const index = Math.max(0, diffDays) % dailyExercises.length;
   return dailyExercises[index];
 }

@@ -145,17 +145,13 @@ export default function Home() {
       )}
 
       {/* Daily Interactive Exercise & Streak Section */}
-      <section className="daily-exercise-section">
+      <section className="daily-exercise-section" id="daily-exercise">
         <div className="section-container">
           <div className="section-meta-row">
             <div>
-              <span className="editorial-eyebrow">Interactive Growth</span>
-              <h2 className="section-title">Today's Grace Exercise</h2>
+              <span className="editorial-eyebrow">Interactive Daily Growth</span>
+              <h2 className="section-title">Today's Graced Exercise</h2>
             </div>
-            <Link to="/daily-exercise" className="editorial-view-all">
-              <span>Dedicated exercise room</span>
-              <ArrowRight size={15} />
-            </Link>
           </div>
 
           <DailyExerciseCard />

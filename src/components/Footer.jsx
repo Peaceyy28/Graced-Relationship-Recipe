@@ -34,7 +34,6 @@ export default function Footer() {
           <ul className="footer-nav">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/word-for-the-day">Word for the Day</Link></li>
-            <li><Link to="/daily-exercise">Daily Exercise & Streak</Link></li>
             <li><Link to="/videos">YouTube Videos</Link></li>
             <li><Link to="/about">About Us</Link></li>
             <li><Link to="/contact">Get in Touch</Link></li>

@@ -58,23 +58,7 @@ export default function Navbar() {
                 Word for the Day
               </NavLink>
             </li>
-            <li>
-              <NavLink 
-                to="/daily-exercise" 
-                className={({ isActive }) => isActive ? 'nav-item active exercise-nav-link' : 'nav-item exercise-nav-link'}
-                onClick={closeMenu}
-              >
-                <span>Daily Exercise</span>
-                {streak > 0 ? (
-                  <span className="nav-streak-pill">
-                    <Flame size={12} />
-                    {streak}
-                  </span>
-                ) : (
-                  <span className="nav-new-pill">Daily</span>
-                )}
-              </NavLink>
-            </li>
+            
             <li>
               <NavLink 
                 to="/videos" 

@@ -9,7 +9,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import WordForTheDay from './pages/WordForTheDay';
 import WordDetail from './pages/WordDetail';
-import DailyExercisePage from './pages/DailyExercisePage';
+
 import Videos from './pages/Videos';
 import About from './pages/About';
 import Contact from './pages/Contact';
@@ -50,7 +50,7 @@ export default function App() {
                 <Route index element={<Home />} />
                 <Route path="word-for-the-day" element={<WordForTheDay />} />
                 <Route path="word/:id" element={<WordDetail />} />
-                <Route path="daily-exercise" element={<DailyExercisePage />} />
+                
                 <Route path="videos" element={<Videos />} />
                 <Route path="about" element={<About />} />
                 <Route path="contact" element={<Contact />} />
