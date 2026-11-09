@@ -1,12 +1,22 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Flame, CheckCircle2, HelpCircle, Sparkles, ArrowRight, Share2, RotateCcw, Award } from 'lucide-react';
 import { getDailyExercise } from '../data/dailyExercises';
 import { useStreak } from '../context/StreakContext';
 import './DailyExerciseCard.css';
 
 export default function DailyExerciseCard({ standalone = false }) {
-  const exercise = useMemo(() => getDailyExercise(), []);
-  const { streak, isCompletedToday, completeTodayExercise } = useStreak();
+  const { streak, isCompletedToday, currentExerciseIndex, currentDayNumber, completeTodayExercise } = useStreak();
+  const exercise = useMemo(() => getDailyExercise(currentExerciseIndex), [currentExerciseIndex]);
+
+  // Reset input state when exercise index changes
+  useEffect(() => {
+    setUserGuess('');
+    setSelectedLetterIndices([]);
+    setShowHint(false);
+    setSelectedOptionIndex(null);
+    setQuizSubmitted(false);
+    setFeedback(null);
+  }, [currentExerciseIndex]);
 
   // Unscramble state
   const [userGuess, setUserGuess] = useState('');

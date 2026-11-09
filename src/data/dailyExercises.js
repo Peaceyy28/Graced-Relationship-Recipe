@@ -6820,14 +6820,20 @@ export const dailyExercises = [
   }
 ];
 
-// Anchor launch date: Monday, November 9, 2026 starts cleanly at Day 1 (index 0)
+// Anchor launch date: Monday, November 9, 2026
 const LAUNCH_DATE_MS = new Date('2026-11-09T00:00:00').getTime();
 
-export function getDailyExercise(date = new Date()) {
+export function getDailyExercise(indexOrDate = 0) {
+  // If an index (0 to 364) is provided from visitor streak progress
+  if (typeof indexOrDate === 'number') {
+    const safeIndex = Math.max(0, Math.floor(indexOrDate)) % dailyExercises.length;
+    return dailyExercises[safeIndex];
+  }
+
+  // Fallback to calendar date calculation
+  const date = indexOrDate instanceof Date ? indexOrDate : new Date();
   const currentMidnight = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
   const diffDays = Math.floor((currentMidnight - LAUNCH_DATE_MS) / (1000 * 60 * 60 * 24));
-
-  // Starts cleanly at Day 1 (index 0) on launch, then increments every midnight for 365 days
   const index = Math.max(0, diffDays) % dailyExercises.length;
   return dailyExercises[index];
 }

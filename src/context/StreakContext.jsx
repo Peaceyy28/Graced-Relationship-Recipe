@@ -37,13 +37,13 @@ export function StreakProvider({ children }) {
 
   const isCompletedToday = streakData.lastCompletedDate === today;
 
-  // Check if streak was broken (last completed was before yesterday)
+  // Check if streak was broken (last completed date was before yesterday)
   useEffect(() => {
     if (streakData.lastCompletedDate && 
         streakData.lastCompletedDate !== today && 
         streakData.lastCompletedDate !== yesterday &&
         streakData.streak > 0) {
-      // Streak broken, reset streak count
+      // Streak broken, reset streak count to 0 so next completion starts back at 1
       setStreakData(prev => {
         const updated = { ...prev, streak: 0 };
         localStorage.setItem(STREAK_KEY, JSON.stringify(updated));
@@ -51,6 +51,17 @@ export function StreakProvider({ children }) {
       });
     }
   }, [today, yesterday]);
+
+  const totalCompleted = streakData.totalCompleted || 0;
+
+  // Personal Journey Progression:
+  // If completed today, show the exercise they finished today.
+  // Otherwise, display their current pending exercise in the 365 queue (never skips, continues where left off).
+  const currentExerciseIndex = isCompletedToday
+    ? Math.max(0, totalCompleted - 1) % 365
+    : totalCompleted % 365;
+
+  const currentDayNumber = currentExerciseIndex + 1;
 
   const completeTodayExercise = () => {
     if (isCompletedToday) return;
@@ -60,7 +71,7 @@ export function StreakProvider({ children }) {
       if (prev.lastCompletedDate === yesterday) {
         newStreak = prev.streak + 1;
       } else {
-        newStreak = 1;
+        newStreak = 1; // Streak restarts back at 1 if a day was missed
       }
 
       const updated = {
@@ -77,7 +88,9 @@ export function StreakProvider({ children }) {
   return (
     <StreakContext.Provider value={{
       streak: streakData.streak,
-      totalCompleted: streakData.totalCompleted,
+      totalCompleted,
+      currentExerciseIndex,
+      currentDayNumber,
       isCompletedToday,
       completeTodayExercise
     }}>
