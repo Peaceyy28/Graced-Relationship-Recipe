@@ -1,0 +1,349 @@
+/* Modern Editorial WordCard Styles */
+
+/* Featured Showcase Card */
+.featured-word-card {
+  background-color: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  display: grid;
+  grid-template-columns: 1.1fr 1.3fr;
+  transition: all 0.3s ease;
+}
+
+.featured-word-card:hover {
+  box-shadow: var(--shadow-hover);
+  border-color: #d8b4fe;
+}
+
+.featured-image-wrapper {
+  position: relative;
+  min-height: 420px;
+  background-color: var(--bg-subtle);
+}
+
+.featured-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.featured-badge {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  background-color: rgba(24, 24, 27, 0.85);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.featured-content {
+  padding: 3.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.word-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.word-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  color: var(--brand-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.read-time-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background-color: var(--bg-main);
+  color: var(--text-light);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-light);
+}
+
+.featured-title {
+  font-size: clamp(1.85rem, 2.5vw, 2.3rem);
+  line-height: 1.25;
+  margin-bottom: 1.5rem;
+}
+
+.featured-title a {
+  color: var(--text-main);
+  transition: color 0.2s;
+}
+
+.featured-title a:hover {
+  color: var(--brand-primary);
+}
+
+/* Scripture Box with Watermark Quote */
+.scripture-box {
+  background-color: #faf5ff;
+  border-left: 3px solid var(--brand-secondary);
+  padding: 1.5rem 1.75rem;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.decorative-quote-mark {
+  position: absolute;
+  top: -15px;
+  right: 15px;
+  font-family: var(--font-serif);
+  font-size: 7rem;
+  line-height: 1;
+  color: #e9d5ff;
+  opacity: 0.4;
+  pointer-events: none;
+  user-select: none;
+}
+
+.scripture-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--brand-primary);
+  margin-bottom: 0.75rem;
+  position: relative;
+  z-index: 2;
+}
+
+.scripture-footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.scripture-ref {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--brand-secondary);
+}
+
+.copy-verse-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background-color: #ffffff;
+  border: 1px solid #d8b4fe;
+  color: var(--brand-primary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.copy-verse-btn:hover {
+  background-color: var(--brand-primary);
+  color: #ffffff;
+  border-color: var(--brand-primary);
+}
+
+.copy-verse-btn.copied {
+  background-color: #ecfdf5;
+  border-color: #10b981;
+  color: #059669;
+}
+
+.word-excerpt {
+  color: var(--text-muted);
+  font-size: 1.02rem;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.read-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--text-main);
+  color: #ffffff;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 0.92rem;
+  align-self: flex-start;
+  transition: all 0.2s ease;
+}
+
+.read-more-btn:hover {
+  background-color: var(--brand-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(88, 28, 135, 0.2);
+}
+
+/* Standard Archive Card */
+.word-card {
+  background-color: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-subtle);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s ease;
+}
+
+.word-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: #d8b4fe;
+}
+
+.card-thumb-wrapper {
+  height: 220px;
+  overflow: hidden;
+  background-color: var(--bg-subtle);
+  position: relative;
+}
+
+.card-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.word-card:hover .card-thumb {
+  transform: scale(1.04);
+}
+
+.thumb-read-time {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  background: rgba(24, 24, 27, 0.75);
+  backdrop-filter: blur(6px);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-full);
+}
+
+.card-body {
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.card-ref-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+  color: var(--text-light);
+  background-color: var(--bg-main);
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
+}
+
+.card-title {
+  font-size: 1.35rem;
+  line-height: 1.35;
+  margin-bottom: 0.85rem;
+}
+
+.card-title a {
+  color: var(--text-main);
+  transition: color 0.2s;
+}
+
+.card-title a:hover {
+  color: var(--brand-primary);
+}
+
+.card-excerpt {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+
+.card-bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-light);
+}
+
+.card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--brand-primary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: gap 0.2s;
+}
+
+.card-link:hover {
+  gap: 0.65rem;
+}
+
+.card-mini-copy {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 0.3rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.card-mini-copy:hover {
+  color: var(--brand-primary);
+  background-color: var(--brand-soft);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .featured-word-card {
+    grid-template-columns: 1fr;
+  }
+  .featured-image-wrapper {
+    min-height: 280px;
+  }
+  .featured-content {
+    padding: 2.25rem 1.75rem;
+  }
+}

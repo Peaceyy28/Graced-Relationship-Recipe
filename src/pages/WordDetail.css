@@ -1,0 +1,190 @@
+/* Word Detail Page - Editorial Reading Sanctuary */
+
+.word-detail-page {
+  padding: 4rem 2rem 7rem;
+  background-color: var(--bg-main);
+  min-height: calc(100vh - 200px);
+}
+
+.word-detail-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.detail-top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.back-link-btn, .share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #ffffff;
+  border: 1px solid var(--border-light);
+  color: var(--text-main);
+  padding: 0.55rem 1.15rem;
+  border-radius: var(--radius-full);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.back-link-btn:hover, .share-btn:hover {
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+  background-color: var(--brand-light);
+}
+
+.detail-article {
+  background-color: #ffffff;
+  border-radius: var(--radius-lg);
+  padding: 4.5rem 4rem;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-light);
+}
+
+.detail-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.detail-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--brand-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.draft-badge {
+  background: #fef3c7;
+  color: #b45309;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+}
+
+.detail-title {
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  color: var(--text-main);
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  margin-bottom: 2.5rem;
+}
+
+.detail-image-box {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: 3rem;
+  box-shadow: var(--shadow-card);
+}
+
+.detail-cover-img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+  display: block;
+}
+
+.detail-scripture-callout {
+  background-color: #faf5ff;
+  border-left: 4px solid var(--brand-secondary);
+  padding: 2.25rem 2.5rem;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.detail-quote-icon {
+  color: var(--brand-accent);
+  opacity: 0.4;
+  margin-bottom: 0.85rem;
+}
+
+.detail-verse-text {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-style: italic;
+  color: var(--brand-primary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.detail-verse-ref {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--brand-secondary);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.detail-body {
+  font-size: 1.15rem;
+  line-height: 1.9;
+  color: #27272a;
+  margin-bottom: 4rem;
+}
+
+.detail-body p {
+  margin-bottom: 1.75rem;
+}
+
+.detail-blessing-card {
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 2.75rem 2.25rem;
+  text-align: center;
+}
+
+.blessing-icon {
+  color: var(--brand-secondary);
+  margin-bottom: 1rem;
+}
+
+.detail-blessing-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.65rem;
+}
+
+.detail-blessing-card p {
+  color: var(--text-muted);
+  font-size: 1.02rem;
+  max-width: 580px;
+  margin: 0 auto 1.75rem;
+  line-height: 1.7;
+}
+
+.explore-more-btn {
+  display: inline-block;
+  background-color: var(--text-main);
+  color: #ffffff;
+  padding: 0.75rem 1.75rem;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 0.92rem;
+  transition: all 0.2s;
+}
+
+.explore-more-btn:hover {
+  background-color: var(--brand-primary);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .detail-article {
+    padding: 2.5rem 1.75rem;
+  }
+}

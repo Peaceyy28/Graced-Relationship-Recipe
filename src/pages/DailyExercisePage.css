@@ -1,0 +1,158 @@
+/* Daily Exercise Page Styles */
+
+.daily-exercise-page {
+  padding-bottom: 7rem;
+}
+
+.exercise-page-banner {
+  background-color: var(--bg-main);
+  border-bottom: 1px solid var(--border-light);
+  padding: 4.5rem 2rem 4rem;
+  text-align: center;
+}
+
+.exercise-page-container {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.banner-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #ffffff;
+  color: #ea580c;
+  border: 1px solid #fed7aa;
+  padding: 0.35rem 0.95rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow-subtle);
+}
+
+.exercise-page-banner h1 {
+  font-size: clamp(2.3rem, 4vw, 3.4rem);
+  letter-spacing: -0.5px;
+  margin-bottom: 1rem;
+}
+
+.exercise-page-banner p {
+  color: var(--text-muted);
+  font-size: 1.15rem;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.streak-stats-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 2rem;
+  background-color: #ffffff;
+  border: 1px solid var(--border-light);
+  padding: 0.85rem 2rem;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-subtle);
+}
+
+.streak-stat-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-number {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.stat-desc {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.streak-stat-divider {
+  width: 1px;
+  height: 28px;
+  background-color: var(--border-light);
+}
+
+.exercise-card-wrapper {
+  max-width: 760px;
+  margin: -2rem auto 0;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 5;
+}
+
+/* Why Section */
+.streak-why-section {
+  max-width: 1140px;
+  margin: 6rem auto 0;
+  padding: 0 2rem;
+}
+
+.why-header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 3.5rem;
+}
+
+.why-header h2 {
+  font-size: 2.2rem;
+  letter-spacing: -0.3px;
+  margin-bottom: 0.75rem;
+}
+
+.why-header p {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.why-card {
+  background-color: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 2.5rem 2rem;
+  box-shadow: var(--shadow-subtle);
+  transition: all 0.2s ease;
+}
+
+.why-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: #d8b4fe;
+}
+
+.why-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  background-color: #faf5ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
+.why-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.65rem;
+}
+
+.why-card p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}

@@ -1,23 +1,16 @@
-# Frontend Workspace
+# React + Vite
 
-This project workspace is configured with an integrated frontend design, UI/UX, React architecture, and web performance skill suite for Antigravity.
+This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
-## Installed Agent Skills (`.agents/skills/`)
+Currently, two official plugins are available:
 
-1. **[frontend-design](.agents/skills/frontend-design/SKILL.md)** (Anthropic)
-   - Distinctive visual design, typographic hierarchy, avoiding generic AI tropes, intentional copywriting.
-2. **[ui-ux-pro-max](.agents/skills/ui-ux-pro-max/SKILL.md)** (Next Level Builder)
-   - Comprehensive UI/UX design intelligence: 79 design styles, 192 product palettes, 74 font pairings, 119 UX guidelines, 25 chart specs, and design system reasoning.
-3. **[react-best-practices](.agents/skills/react-best-practices/SKILL.md)** (Vercel Labs)
-   - 70 performance rules across 8 categories: component architecture, bundle optimization, hooks/re-render prevention, server components, and async data fetching.
-4. **[web-design-guidelines](.agents/skills/web-design-guidelines/SKILL.md)** (Vercel Labs)
-   - Interactive audit tool for checking UI code compliance, accessibility, and interaction polish.
-5. **[web-performance](.agents/skills/web-performance/SKILL.md)** (Google web.dev & Vercel)
-   - Core Web Vitals (LCP, INP, CLS), asset loading, responsive image optimization, script prioritization, and rendering efficiency.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## Getting Started
+## React Compiler
 
-To activate this workspace in Antigravity:
-1. Open Antigravity and select **Open Folder...** (or launch from terminal).
-2. Choose `C:\Users\OLUWANIFEMI PEACE OJ\.gemini\antigravity\scratch\frontend-workspace`.
-3. Antigravity will automatically detect all `.agents/skills/` customizations.
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+
+## Expanding the Oxlint configuration
+
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.

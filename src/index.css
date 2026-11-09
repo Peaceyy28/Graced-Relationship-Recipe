@@ -1,0 +1,65 @@
+/* Grace Relationship Recipes - Modern Editorial Design System */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg-main: #faf9f6; /* Warm Studio Alabaster / Parchment */
+  --bg-card: #ffffff;
+  --bg-subtle: #f5f3ef;
+  
+  --text-main: #18181b; /* Deep Onyx / Charcoal Ink */
+  --text-muted: #52525b;
+  --text-light: #71717a;
+  
+  --brand-primary: #581c87; /* Regal Amethyst */
+  --brand-secondary: #7e22ce;
+  --brand-accent: #a855f7;
+  --brand-soft: #f3e8ff; /* Soft Lilac Tint */
+  --brand-light: #faf5ff;
+  
+  --border-light: #e4e4e7;
+  --border-subtle: #f0edf7;
+  
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+  
+  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 4px 20px rgba(24, 24, 27, 0.04), 0 1px 3px rgba(24, 24, 27, 0.02);
+  --shadow-hover: 0 12px 30px rgba(88, 28, 135, 0.08), 0 4px 10px rgba(0, 0, 0, 0.03);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  color: var(--text-main);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
