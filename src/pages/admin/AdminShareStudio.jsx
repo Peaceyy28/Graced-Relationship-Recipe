@@ -250,7 +250,7 @@ export default function AdminShareStudio() {
 
     if (contentType === 'video' && selectedVideo) {
       const desc = (selectedVideo.description || 'Watch this practical, faith-rooted teaching from The Sent TV.').trim();
-      return `🎬 *NEW TEACHING ON THE SENT TV* 🔥\n*${selectedVideo.title}*\n\n${desc}\n\n👇 Watch the full teaching on our Sanctuary:\n🔗 ${cleanBaseUrl}/videos\n\n📺 Direct YouTube:\n${selectedVideo.youtube_url}\n\n#TheSentTV #GracedRelationshipRecipes #ChristianRelationships`;
+      return `🎬 *NEW TEACHING ON THE SENT TV* 🔥\n*${selectedVideo.title}*\n\n${desc}\n\n👇 Watch the full teaching directly on our Sanctuary:\n🔗 ${cleanBaseUrl}/videos\n\n#TheSentTV #GracedRelationshipRecipes #ChristianRelationships`;
     }
 
     return '';
@@ -520,7 +520,7 @@ export default function AdminShareStudio() {
         ctx.textBaseline = 'middle';
         const ctaText = contentType === 'post'
           ? `Read the full teaching via the link in caption  •  ${cleanDomainLabel}`
-          : `Watch the full video via the link in caption  •  ${cleanDomainLabel}`;
+          : `Tap link in caption or story sticker to watch  •  ${cleanDomainLabel}`;
         ctx.fillText(ctaText, centerX, footerY + 12);
       };
 
