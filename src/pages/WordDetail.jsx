@@ -1,13 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Calendar, BookOpen, Quote, Share2, Heart } from 'lucide-react';
 import { useData } from '../context/DataContext';
+import ShareGraphicModal from '../components/ShareGraphicModal';
 import './WordDetail.css';
 
 export default function WordDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { posts, recordPostView, recordScriptureShare } = useData();
+  const { posts, recordPostView } = useData();
+  const [isShareOpen, setIsShareOpen] = useState(false);
 
   const post = posts.find(p => p.id === id);
 
@@ -45,17 +47,7 @@ export default function WordDetail() {
       });
 
   const handleShare = () => {
-    recordScriptureShare(post.id);
-    if (navigator.share) {
-      navigator.share({
-        title: post.title,
-        text: `Word for the Day: ${post.title} — ${post.scripture_reference}`,
-        url: window.location.href,
-      }).catch(() => {});
-    } else {
-      navigator.clipboard.writeText(window.location.href);
-      alert('Link copied to clipboard!');
-    }
+    setIsShareOpen(true);
   };
 
   return (
@@ -128,12 +120,24 @@ export default function WordDetail() {
             <p>
               Take a moment to reflect on this truth, pray together, and intentionally extend grace to the ones you love.
             </p>
-            <Link to="/word-for-the-day" className="explore-more-btn">
-              Explore More Messages
-            </Link>
+            <div style={{ display: 'flex', gap: '0.85rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <button onClick={handleShare} className="share-btn" style={{ backgroundColor: 'var(--brand-primary)', color: '#fff', borderColor: 'var(--brand-primary)' }}>
+                <Share2 size={16} />
+                <span>Share Graphic & Link</span>
+              </button>
+              <Link to="/word-for-the-day" className="explore-more-btn">
+                Explore More Messages
+              </Link>
+            </div>
           </div>
         </article>
       </div>
+
+      <ShareGraphicModal
+        isOpen={isShareOpen}
+        onClose={() => setIsShareOpen(false)}
+        post={post}
+      />
     </div>
   );
 }
