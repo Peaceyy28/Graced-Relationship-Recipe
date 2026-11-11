@@ -1308,6 +1308,10 @@
   max-height: 440px;
 }
 
+.canvas-preview-stage.portrait .studio-canvas-element {
+  max-height: 490px;
+}
+
 .canvas-preview-stage.status .studio-canvas-element {
   max-height: 520px;
 }
