@@ -52,3 +52,7 @@ create policy "Allow public read/write on grr_posts" on public.grr_posts for all
 create policy "Allow public read/write on grr_videos" on public.grr_videos for all using (true) with check (true);
 create policy "Allow public read/write on grr_settings" on public.grr_settings for all using (true) with check (true);
 create policy "Allow public read/write on grr_analytics" on public.grr_analytics for all using (true) with check (true);
+
+-- Grant table privileges to Supabase API roles
+grant usage on schema public to anon, authenticated;
+grant all on table public.grr_posts, public.grr_videos, public.grr_settings, public.grr_analytics to anon, authenticated;
