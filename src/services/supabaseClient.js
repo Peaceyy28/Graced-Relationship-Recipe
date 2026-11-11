@@ -6,12 +6,16 @@ export function isSupabaseConfigured() {
 }
 
 function getHeaders(extra = {}) {
-  return {
+  const headers = {
     apikey: SUPABASE_KEY,
-    Authorization: `Bearer ${SUPABASE_KEY}`,
     'Content-Type': 'application/json',
     ...extra
   };
+  // Only include Bearer token for legacy JWT anon keys; newer sb_publishable_ keys use apikey header only
+  if (SUPABASE_KEY.startsWith('eyJ')) {
+    headers.Authorization = `Bearer ${SUPABASE_KEY}`;
+  }
+  return headers;
 }
 
 async function sbFetch(path, options = {}) {
