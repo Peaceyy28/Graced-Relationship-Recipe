@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { Plus, Edit, Trash2, ExternalLink, Search, X, AlertTriangle, Video, Play } from 'lucide-react';
+import { Plus, Edit, Trash2, ExternalLink, Search, X, AlertTriangle, Video, Play, Sparkles, RefreshCw, CheckCircle2 } from 'lucide-react';
 import { useData } from '../../context/DataContext';
 
 export default function AdminVideos() {
-  const { videos, addVideo, updateVideo, deleteVideo } = useData();
+  const { videos, addVideo, updateVideo, deleteVideo, syncYouTubeVideos, isSyncingYouTube, lastYouTubeSync } = useData();
+  const [syncNotice, setSyncNotice] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -83,6 +84,25 @@ export default function AdminVideos() {
     }
   };
 
+  const handleManualSync = async () => {
+    setSyncNotice(null);
+    const res = await syncYouTubeVideos(true);
+    if (res.success) {
+      setSyncNotice({
+        type: 'success',
+        text: res.added > 0
+          ? `Synced! Added ${res.added} new video(s) from your YouTube channel.`
+          : 'YouTube Auto-Sync is up to date with your latest uploads.'
+      });
+    } else {
+      setSyncNotice({
+        type: 'error',
+        text: res.error || 'Could not reach YouTube channel feed right now.'
+      });
+    }
+    setTimeout(() => setSyncNotice(null), 5000);
+  };
+
   const filteredVideos = videos.filter(v => 
     v.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     (v.description && v.description.toLowerCase().includes(searchTerm.toLowerCase()))
@@ -96,10 +116,51 @@ export default function AdminVideos() {
           <p>Add and curate YouTube video teachings for the public videos page.</p>
         </div>
 
-        <button onClick={openCreateModal} className="admin-primary-btn">
-          <Plus size={16} />
-          <span>Add New Video</span>
-        </button>
+        <div className="header-actions">
+          <button
+            type="button"
+            onClick={handleManualSync}
+            disabled={isSyncingYouTube}
+            className="admin-secondary-btn"
+          >
+            <RefreshCw size={15} className={isSyncingYouTube ? 'spin-icon' : ''} />
+            <span>{isSyncingYouTube ? 'Syncing YouTube...' : 'Sync YouTube Now'}</span>
+          </button>
+          <button onClick={openCreateModal} className="admin-primary-btn">
+            <Plus size={16} />
+            <span>Add New Video</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Auto-Sync Status & Feedback Banner */}
+      <div style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: '0.75rem',
+        padding: '0.85rem 1.15rem',
+        marginBottom: '1.25rem',
+        borderRadius: '10px',
+        backgroundColor: syncNotice?.type === 'error' ? '#fef2f2' : '#faf5ff',
+        border: syncNotice?.type === 'error' ? '1px solid #fecaca' : '1px solid #e9d5ff',
+        fontSize: '0.86rem',
+        color: syncNotice?.type === 'error' ? '#991b1b' : '#4c1d95'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <CheckCircle2 size={16} color={syncNotice?.type === 'error' ? '#dc2626' : '#7e22ce'} />
+          <span>
+            {syncNotice
+              ? syncNotice.text
+              : 'Auto-Sync Active: New uploads on THE SENT TV automatically appear on your website.'}
+          </span>
+        </div>
+        {lastYouTubeSync && (
+          <span style={{ fontSize: '0.78rem', opacity: 0.8 }}>
+            Last checked: {new Date(lastYouTubeSync).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          </span>
+        )}
       </div>
 
       {/* Toolbar */}

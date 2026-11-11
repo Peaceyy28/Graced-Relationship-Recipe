@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { initialPosts, initialVideos, initialSettings, initialAnalytics } from '../data/initialData';
+import { fetchYouTubeChannelVideos, extractYouTubeVideoId, DEFAULT_YT_CHANNEL_ID } from '../services/youtubeSync';
 
 const DataContext = createContext(null);
 
@@ -32,10 +33,15 @@ export function DataProvider({ children }) {
   const [settings, setSettings] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEYS.SETTINGS);
-      return saved ? JSON.parse(saved) : initialSettings;
+      return saved ? { ...initialSettings, ...JSON.parse(saved) } : initialSettings;
     } catch {
       return initialSettings;
     }
+  });
+
+  const [isSyncingYouTube, setIsSyncingYouTube] = useState(false);
+  const [lastYouTubeSync, setLastYouTubeSync] = useState(() => {
+    return localStorage.getItem('grr_yt_last_sync_iso') || null;
   });
 
   const [analytics, setAnalytics] = useState(() => {
@@ -227,6 +233,55 @@ export function DataProvider({ children }) {
     localStorage.removeItem(STORAGE_KEYS.ANALYTICS);
   };
 
+
+  // Live YouTube Channel Auto-Sync
+  const syncYouTubeVideos = async (force = false) => {
+    const LAST_SYNC_MS_KEY = 'grr_yt_last_sync_ms';
+    const lastMs = Number(localStorage.getItem(LAST_SYNC_MS_KEY) || '0');
+    const FIFTEEN_MINUTES = 15 * 60 * 1000;
+
+    if (!force && Date.now() - lastMs < FIFTEEN_MINUTES) {
+      return { skipped: true, added: 0 };
+    }
+
+    setIsSyncingYouTube(true);
+    try {
+      const result = await fetchYouTubeChannelVideos({
+        channelId: settings.youtube_channel_id || DEFAULT_YT_CHANNEL_ID,
+        channelUrl: settings.youtube_channel_url
+      });
+
+      let addedCount = 0;
+      setVideos(prev => {
+        const existingIds = new Set(
+          prev.map(v => extractYouTubeVideoId(v.youtube_url)).filter(Boolean)
+        );
+        const newItems = result.videos.filter(v => !existingIds.has(v.videoId));
+        addedCount = newItems.length;
+        if (newItems.length === 0) return prev;
+        return [...newItems, ...prev].sort(
+          (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
+      });
+
+      const nowIso = new Date().toISOString();
+      localStorage.setItem(LAST_SYNC_MS_KEY, String(Date.now()));
+      localStorage.setItem('grr_yt_last_sync_iso', nowIso);
+      setLastYouTubeSync(nowIso);
+
+      return { success: true, added: addedCount, syncedAt: nowIso };
+    } catch (err) {
+      return { success: false, added: 0, error: err?.message || 'Sync failed' };
+    } finally {
+      setIsSyncingYouTube(false);
+    }
+  };
+
+  // Silently sync YouTube channel on app load (throttled every 15m)
+  useEffect(() => {
+    syncYouTubeVideos(false);
+  }, [settings.youtube_channel_id]);
+
   // Smart Public & Scheduled Filtering
   const now = new Date().getTime();
 
@@ -271,7 +326,10 @@ export function DataProvider({ children }) {
       updateVideo,
       deleteVideo,
       updateSettings,
-      resetDemoData
+      resetDemoData,
+      syncYouTubeVideos,
+      isSyncingYouTube,
+      lastYouTubeSync
     }}>
       {children}
     </DataContext.Provider>

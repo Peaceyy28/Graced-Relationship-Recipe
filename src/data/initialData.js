@@ -136,6 +136,7 @@ export const initialVideos = [
 
 export const initialSettings = {
   youtube_channel_url: "https://www.youtube.com/@THESENT_TV",
+  youtube_channel_id: "UCf8jri4Y0aETD9MG0s3BQ2w",
   site_title: "Graced Relationship Recipes",
   site_tagline: "Biblical Wisdom, Relationship Recipes & Drama Ministry by Anuoluwapo Oluwagbayela Serah",
   contact_email: "sentannie@gmail.com",

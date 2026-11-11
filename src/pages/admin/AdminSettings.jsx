@@ -49,6 +49,20 @@ export default function AdminSettings() {
           </div>
 
           <div className="form-group full">
+            <label>YouTube Channel ID (Auto-Sync Feed)</label>
+            <div className="input-with-icon">
+              <Info size={18} className="input-icon" />
+              <input 
+                type="text" 
+                value={formData.youtube_channel_id || ''}
+                onChange={(e) => setFormData({ ...formData, youtube_channel_id: e.target.value })}
+                placeholder="UCf8jri4Y0aETD9MG0s3BQ2w"
+              />
+            </div>
+            <span className="input-hint">Automatically pulls new uploads from The Sent TV onto your website without manual copying.</span>
+          </div>
+
+          <div className="form-group full">
             <label>Contact Email Address</label>
             <div className="input-with-icon">
               <Mail size={18} className="input-icon" />

@@ -1414,3 +1414,11 @@
     grid-template-columns: 1fr;
   }
 }
+
+@keyframes spinAnim {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.spin-icon {
+  animation: spinAnim 1s linear infinite;
+}
