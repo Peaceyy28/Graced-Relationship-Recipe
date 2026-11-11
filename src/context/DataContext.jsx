@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { initialPosts, initialVideos, initialSettings, initialAnalytics } from '../data/initialData';
 import { fetchYouTubeChannelVideos, extractYouTubeVideoId, DEFAULT_YT_CHANNEL_ID } from '../services/youtubeSync';
+import { isSupabaseConfigured, fetchCloudState, upsertCloudPost, deleteCloudPost, saveCloudSettings, saveCloudAnalytics } from '../services/supabaseClient';
 
 const DataContext = createContext(null);
 
@@ -66,6 +67,20 @@ export function DataProvider({ children }) {
     }
   });
 
+
+  // Load global posts, settings & analytics from Supabase cloud when configured
+  useEffect(() => {
+    if (!isSupabaseConfigured()) return;
+    let active = true;
+    fetchCloudState({ initialPosts, initialSettings, initialAnalytics }).then((cloud) => {
+      if (!active || !cloud) return;
+      if (Array.isArray(cloud.posts) && cloud.posts.length > 0) setPosts(cloud.posts);
+      if (cloud.settings) setSettings(prev => ({ ...prev, ...cloud.settings }));
+      if (cloud.analytics) setAnalytics(prev => ({ ...prev, ...cloud.analytics }));
+    });
+    return () => { active = false; };
+  }, []);
+
   // Sync state changes with localStorage
   useEffect(() => {
     localStorage.setItem(STORAGE_KEYS.POSTS, JSON.stringify(posts));
@@ -98,7 +113,14 @@ export function DataProvider({ children }) {
 
   // Live Analytics tracking helpers
   const recordPostView = (postId) => {
-    setPosts(prev => prev.map(p => p.id === postId ? { ...p, views: (p.views || 0) + 1 } : p));
+    setPosts(prev => prev.map(p => {
+      if (p.id === postId) {
+        const updated = { ...p, views: (p.views || 0) + 1 };
+        upsertCloudPost(updated);
+        return updated;
+      }
+      return p;
+    }));
     const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const todayDay = dayNames[new Date().getDay()];
 
@@ -106,7 +128,7 @@ export function DataProvider({ children }) {
       const safeTrend = Array.isArray(prev.weeklyTrend) && prev.weeklyTrend.length > 0
         ? prev.weeklyTrend
         : initialAnalytics.weeklyTrend;
-      return {
+      const next = {
         ...prev,
         monthlyReads: (prev.monthlyReads || 0) + 1,
         totalVisitors: (prev.totalVisitors || 0) + 1,
@@ -115,25 +137,42 @@ export function DataProvider({ children }) {
         ),
         trafficSources: updateTrafficSource(prev.trafficSources, 'Direct Link / Search')
       };
+      saveCloudAnalytics(next);
+      return next;
     });
   };
 
   const recordScriptureShare = (postId) => {
-    setPosts(prev => prev.map(p => p.id === postId ? { ...p, shares: (p.shares || 0) + 1 } : p));
-    setAnalytics(prev => ({
-      ...prev,
-      scriptureShares: (prev.scriptureShares || 0) + 1,
-      trafficSources: updateTrafficSource(prev.trafficSources, 'WhatsApp / Direct Shares')
+    setPosts(prev => prev.map(p => {
+      if (p.id === postId) {
+        const updated = { ...p, shares: (p.shares || 0) + 1 };
+        upsertCloudPost(updated);
+        return updated;
+      }
+      return p;
     }));
+    setAnalytics(prev => {
+      const next = {
+        ...prev,
+        scriptureShares: (prev.scriptureShares || 0) + 1,
+        trafficSources: updateTrafficSource(prev.trafficSources, 'WhatsApp / Direct Shares')
+      };
+      saveCloudAnalytics(next);
+      return next;
+    });
   };
 
   const recordVideoClick = (videoId) => {
     setVideos(prev => prev.map(v => v.id === videoId ? { ...v, clicks: (v.clicks || 0) + 1 } : v));
-    setAnalytics(prev => ({
-      ...prev,
-      youtubeClicks: (prev.youtubeClicks || 0) + 1,
-      trafficSources: updateTrafficSource(prev.trafficSources, 'YouTube (The Sent TV)')
-    }));
+    setAnalytics(prev => {
+      const next = {
+        ...prev,
+        youtubeClicks: (prev.youtubeClicks || 0) + 1,
+        trafficSources: updateTrafficSource(prev.trafficSources, 'YouTube (The Sent TV)')
+      };
+      saveCloudAnalytics(next);
+      return next;
+    });
   };
 
   // Post CRUD with Scheduling Support
@@ -151,6 +190,7 @@ export function DataProvider({ children }) {
       scheduled_for: isScheduled ? newPost.scheduled_for : null
     };
     setPosts(prev => [postWithDefaults, ...prev]);
+    upsertCloudPost(postWithDefaults);
     return postWithDefaults;
   };
 
@@ -161,13 +201,15 @@ export function DataProvider({ children }) {
         const isPublished = updatedFields.status === 'published';
         const wasNotPublished = post.status !== 'published';
 
-        return {
+        const updatedPost = {
           ...post,
           ...updatedFields,
           updated_at: new Date().toISOString(),
           published_at: wasNotPublished && isPublished ? new Date().toISOString() : post.published_at,
           scheduled_for: isScheduled ? updatedFields.scheduled_for : null
         };
+        upsertCloudPost(updatedPost);
+        return updatedPost;
       }
       return post;
     }));
@@ -175,6 +217,7 @@ export function DataProvider({ children }) {
 
   const deletePost = (id) => {
     setPosts(prev => prev.filter(post => post.id !== id));
+    deleteCloudPost(id);
   };
 
   // Video CRUD
@@ -219,7 +262,11 @@ export function DataProvider({ children }) {
   };
 
   const updateSettings = (newSettings) => {
-    setSettings(prev => ({ ...prev, ...newSettings }));
+    setSettings(prev => {
+      const next = { ...prev, ...newSettings };
+      saveCloudSettings(next);
+      return next;
+    });
   };
 
   const resetDemoData = () => {
@@ -329,7 +376,8 @@ export function DataProvider({ children }) {
       resetDemoData,
       syncYouTubeVideos,
       isSyncingYouTube,
-      lastYouTubeSync
+      lastYouTubeSync,
+      isCloudSynced: isSupabaseConfigured()
     }}>
       {children}
     </DataContext.Provider>

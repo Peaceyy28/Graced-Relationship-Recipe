@@ -90,14 +90,14 @@ export default function AdminSettings() {
           </div>
 
           <div className="form-group full">
-            <label>Contact Phone / WhatsApp</label>
+            <label>Contact Phone / WhatsApp (Optional — leave blank to hide on website)</label>
             <div className="input-with-icon">
               <Phone size={18} className="input-icon" />
               <input 
                 type="text" 
                 value={formData.contact_phone}
                 onChange={(e) => setFormData({ ...formData, contact_phone: e.target.value })}
-                placeholder="+234 800 000 0000"
+                placeholder="Hidden unless a phone number is entered"
               />
             </div>
           </div>

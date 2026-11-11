@@ -14,6 +14,7 @@ export default function Contact() {
   });
   const [sending, setSending] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitWarning, setSubmitWarning] = useState('');
   const [sentSnapshot, setSentSnapshot] = useState(null);
 
   const handleSubmit = async (e) => {
@@ -21,12 +22,13 @@ export default function Contact() {
     if (!formData.name || !formData.email || !formData.message) return;
 
     setSending(true);
+    setSubmitWarning('');
     setSentSnapshot({ ...formData });
 
     try {
-      // Direct inbox dispatch via Formspree
+      // Direct inbox dispatch via FormSubmit AJAX API (accepts email directly)
       const recipient = settings.contact_email || 'sentannie@gmail.com';
-      await fetch(`https://formspree.io/f/${recipient}`, {
+      const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(recipient)}`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -35,17 +37,23 @@ export default function Contact() {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          subject: formData.subject || 'Inquiry from Graced Relationship Recipes',
+          _subject: formData.subject || 'New Message from Graced Relationship Recipes',
           message: formData.message,
-          _replyto: formData.email
+          _replyto: formData.email,
+          _template: 'table'
         })
       });
-    } catch {
-      // Even if network blocks cross-origin, user can still use mailto link
-    } finally {
-      setSending(false);
+
+      if (!response.ok) {
+        setSubmitWarning('Direct web delivery returned an unexpected status—please also use the Gmail button below if needed.');
+      }
       setSubmitted(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch {
+      setSubmitWarning('Unable to reach mail relay over this connection—please click "Open in Gmail / Mail App" below to send directly.');
+      setSubmitted(true);
+    } finally {
+      setSending(false);
     }
   };
 
@@ -142,9 +150,13 @@ export default function Contact() {
             {submitted ? (
               <div className="submission-success">
                 <CheckCircle size={48} className="success-icon" />
-                <h3>Message Sent to Inbox!</h3>
+                <h3>{submitWarning ? 'Ready to Send via Email' : 'Message Sent to Inbox!'}</h3>
                 <p>
-                  Your message has been dispatched directly to <strong>{settings.contact_email || 'sentannie@gmail.com'}</strong>. We will get back to you as soon as possible.
+                  {submitWarning || (
+                    <>
+                      Your message has been dispatched directly to <strong>{settings.contact_email || 'sentannie@gmail.com'}</strong>. We will get back to you as soon as possible.
+                    </>
+                  )}
                 </p>
 
                 <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
