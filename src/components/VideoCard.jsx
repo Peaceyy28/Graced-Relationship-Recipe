@@ -8,11 +8,6 @@ export default function VideoCard({ video }) {
   const { recordVideoClick } = useData();
   const [isPlayerOpen, setIsPlayerOpen] = useState(false);
 
-  if (!video) return null;
-
-  const videoId = extractYouTubeVideoId(video.youtube_url);
-  const embedUrl = videoId ? `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0` : null;
-
   useEffect(() => {
     if (!isPlayerOpen) return;
     const handleEsc = (e) => {
@@ -21,6 +16,11 @@ export default function VideoCard({ video }) {
     window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
   }, [isPlayerOpen]);
+
+  if (!video) return null;
+
+  const videoId = extractYouTubeVideoId(video.youtube_url);
+  const embedUrl = videoId ? `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0` : null;
 
   const handleOpenPlayer = (e) => {
     e.preventDefault();

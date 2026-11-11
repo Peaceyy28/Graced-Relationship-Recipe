@@ -1,22 +1,12 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Flame, CheckCircle2, HelpCircle, Sparkles, ArrowRight, Share2, RotateCcw, Award } from 'lucide-react';
+import { Flame, HelpCircle, Sparkles, ArrowRight, Share2, RotateCcw, Award } from 'lucide-react';
 import { getDailyExercise } from '../data/dailyExercises';
 import { useStreak } from '../context/StreakContext';
 import './DailyExerciseCard.css';
 
 export default function DailyExerciseCard({ standalone = false }) {
-  const { streak, isCompletedToday, currentExerciseIndex, currentDayNumber, completeTodayExercise } = useStreak();
+  const { streak, isCompletedToday, currentExerciseIndex, completeTodayExercise } = useStreak();
   const exercise = useMemo(() => getDailyExercise(currentExerciseIndex), [currentExerciseIndex]);
-
-  // Reset input state when exercise index changes
-  useEffect(() => {
-    setUserGuess('');
-    setSelectedLetterIndices([]);
-    setShowHint(false);
-    setSelectedOptionIndex(null);
-    setQuizSubmitted(false);
-    setFeedback(null);
-  }, [currentExerciseIndex]);
 
   // Unscramble state
   const [userGuess, setUserGuess] = useState('');
@@ -27,6 +17,16 @@ export default function DailyExerciseCard({ standalone = false }) {
   // Quiz / Verse Fill state
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(null);
   const [quizSubmitted, setQuizSubmitted] = useState(false);
+
+  // Reset input state when exercise index changes
+  useEffect(() => {
+    setUserGuess('');
+    setSelectedLetterIndices([]);
+    setShowHint(false);
+    setSelectedOptionIndex(null);
+    setQuizSubmitted(false);
+    setFeedback(null);
+  }, [currentExerciseIndex]);
 
   // Unscramble tile click
   const handleTileClick = (letter, index) => {
