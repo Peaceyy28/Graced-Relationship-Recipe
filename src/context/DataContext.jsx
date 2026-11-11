@@ -41,7 +41,20 @@ export function DataProvider({ children }) {
   const [analytics, setAnalytics] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEYS.ANALYTICS);
-      return saved ? JSON.parse(saved) : initialAnalytics;
+      if (!saved) return initialAnalytics;
+      const parsed = JSON.parse(saved);
+      return {
+        monthlyReads: parsed.monthlyReads ?? parsed.total_page_views ?? 0,
+        totalVisitors: parsed.totalVisitors ?? parsed.total_page_views ?? 0,
+        scriptureShares: parsed.scriptureShares ?? parsed.devotional_shares ?? 0,
+        youtubeClicks: parsed.youtubeClicks ?? parsed.video_clicks ?? 0,
+        weeklyTrend: Array.isArray(parsed.weeklyTrend) && parsed.weeklyTrend.length > 0
+          ? parsed.weeklyTrend
+          : initialAnalytics.weeklyTrend,
+        trafficSources: Array.isArray(parsed.trafficSources) && parsed.trafficSources.length > 0
+          ? parsed.trafficSources
+          : initialAnalytics.trafficSources
+      };
     } catch {
       return initialAnalytics;
     }
@@ -64,21 +77,56 @@ export function DataProvider({ children }) {
     localStorage.setItem(STORAGE_KEYS.ANALYTICS, JSON.stringify(analytics));
   }, [analytics]);
 
-  // Live Analytics tracking helper
+  // Helper to recalculate traffic source percentages
+  const updateTrafficSource = (sources, targetSourceName) => {
+    const safeSources = Array.isArray(sources) && sources.length > 0 ? sources : initialAnalytics.trafficSources;
+    const updatedCounts = safeSources.map(s =>
+      s.source === targetSourceName ? { ...s, count: (s.count || 0) + 1 } : s
+    );
+    const total = updatedCounts.reduce((sum, s) => sum + (s.count || 0), 0);
+    return updatedCounts.map(s => ({
+      ...s,
+      percentage: total > 0 ? Math.round(((s.count || 0) / total) * 100) : 0
+    }));
+  };
+
+  // Live Analytics tracking helpers
   const recordPostView = (postId) => {
     setPosts(prev => prev.map(p => p.id === postId ? { ...p, views: (p.views || 0) + 1 } : p));
-    setAnalytics(prev => ({
-      ...prev,
-      monthlyReads: (prev.monthlyReads || 0) + 1,
-      totalVisitors: (prev.totalVisitors || 0) + 1
-    }));
+    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const todayDay = dayNames[new Date().getDay()];
+
+    setAnalytics(prev => {
+      const safeTrend = Array.isArray(prev.weeklyTrend) && prev.weeklyTrend.length > 0
+        ? prev.weeklyTrend
+        : initialAnalytics.weeklyTrend;
+      return {
+        ...prev,
+        monthlyReads: (prev.monthlyReads || 0) + 1,
+        totalVisitors: (prev.totalVisitors || 0) + 1,
+        weeklyTrend: safeTrend.map(item =>
+          item.day === todayDay ? { ...item, reads: (item.reads || 0) + 1 } : item
+        ),
+        trafficSources: updateTrafficSource(prev.trafficSources, 'Direct Link / Search')
+      };
+    });
   };
 
   const recordScriptureShare = (postId) => {
     setPosts(prev => prev.map(p => p.id === postId ? { ...p, shares: (p.shares || 0) + 1 } : p));
     setAnalytics(prev => ({
       ...prev,
-      scriptureShares: (prev.scriptureShares || 0) + 1
+      scriptureShares: (prev.scriptureShares || 0) + 1,
+      trafficSources: updateTrafficSource(prev.trafficSources, 'WhatsApp / Direct Shares')
+    }));
+  };
+
+  const recordVideoClick = (videoId) => {
+    setVideos(prev => prev.map(v => v.id === videoId ? { ...v, clicks: (v.clicks || 0) + 1 } : v));
+    setAnalytics(prev => ({
+      ...prev,
+      youtubeClicks: (prev.youtubeClicks || 0) + 1,
+      trafficSources: updateTrafficSource(prev.trafficSources, 'YouTube (The Sent TV)')
     }));
   };
 
@@ -215,6 +263,7 @@ export function DataProvider({ children }) {
       analytics,
       recordPostView,
       recordScriptureShare,
+      recordVideoClick,
       addPost,
       updatePost,
       deletePost,

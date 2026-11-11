@@ -1,14 +1,22 @@
-import { BarChart3, Users, BookOpen, Share2, TrendingUp, ArrowUpRight, Smartphone } from 'lucide-react';
+import { Users, BookOpen, Share2, TrendingUp } from 'lucide-react';
 import YoutubeIcon from '../../components/YoutubeIcon';
 import { useData } from '../../context/DataContext';
 
 export default function AdminAnalytics() {
   const { analytics, publishedPosts } = useData();
 
-  // Find top posts sorted by views
-  const topPosts = [...publishedPosts].sort((a, b) => (b.views || 0) - (a.views || 0));
+  const monthlyReads = analytics?.monthlyReads ?? analytics?.total_page_views ?? 0;
+  const totalVisitors = analytics?.totalVisitors ?? analytics?.total_page_views ?? 0;
+  const scriptureShares = analytics?.scriptureShares ?? analytics?.devotional_shares ?? 0;
+  const youtubeClicks = analytics?.youtubeClicks ?? analytics?.video_clicks ?? 0;
 
-  const maxWeeklyReads = Math.max(...(analytics.weeklyTrend || []).map(d => d.reads), 1200);
+  const weeklyTrend = Array.isArray(analytics?.weeklyTrend) ? analytics.weeklyTrend : [];
+  const trafficSources = Array.isArray(analytics?.trafficSources) ? analytics.trafficSources : [];
+
+  // Find top posts sorted by views
+  const topPosts = [...(publishedPosts || [])].sort((a, b) => (b.views || 0) - (a.views || 0));
+
+  const maxWeeklyReads = Math.max(...weeklyTrend.map(d => d.reads || 0), 10);
 
   return (
     <div className="admin-page-view">
@@ -31,7 +39,7 @@ export default function AdminAnalytics() {
             <BookOpen size={24} />
           </div>
           <div className="metric-data">
-            <span className="metric-value">{analytics.monthlyReads.toLocaleString()}</span>
+            <span className="metric-value">{monthlyReads.toLocaleString()}</span>
             <span className="metric-label">Devotional Reads</span>
           </div>
         </div>
@@ -41,8 +49,8 @@ export default function AdminAnalytics() {
             <Users size={24} />
           </div>
           <div className="metric-data">
-            <span className="metric-value">{analytics.totalVisitors.toLocaleString()}</span>
-            <span className="metric-label">Monthly Visitors</span>
+            <span className="metric-value">{totalVisitors.toLocaleString()}</span>
+            <span className="metric-label">Total Visitors</span>
           </div>
         </div>
 
@@ -51,7 +59,7 @@ export default function AdminAnalytics() {
             <Share2 size={24} />
           </div>
           <div className="metric-data">
-            <span className="metric-value">{analytics.scriptureShares.toLocaleString()}</span>
+            <span className="metric-value">{scriptureShares.toLocaleString()}</span>
             <span className="metric-label">Scripture Shares (WhatsApp)</span>
           </div>
         </div>
@@ -61,7 +69,7 @@ export default function AdminAnalytics() {
             <YoutubeIcon size={24} />
           </div>
           <div className="metric-data">
-            <span className="metric-value">{analytics.youtubeClicks.toLocaleString()}</span>
+            <span className="metric-value">{youtubeClicks.toLocaleString()}</span>
             <span className="metric-label">YouTube Visitors</span>
           </div>
         </div>
@@ -78,17 +86,18 @@ export default function AdminAnalytics() {
 
         <div className="analytics-chart-container">
           <div className="chart-bars-wrap">
-            {(analytics.weeklyTrend || []).map((item, index) => {
-              const heightPercent = Math.round((item.reads / maxWeeklyReads) * 100);
+            {weeklyTrend.map((item, index) => {
+              const reads = item.reads || 0;
+              const heightPercent = reads > 0 ? Math.max(8, Math.round((reads / maxWeeklyReads) * 100)) : 0;
               return (
                 <div key={index} className="chart-bar-col">
                   <div className="chart-bar-track">
                     <div 
                       className="chart-bar-fill" 
                       style={{ height: `${heightPercent}%` }}
-                      title={`${item.day}: ${item.reads} reads`}
+                      title={`${item.day}: ${reads} reads`}
                     >
-                      <span className="bar-tooltip">{item.reads}</span>
+                      <span className="bar-tooltip">{reads}</span>
                     </div>
                   </div>
                   <span className="chart-bar-label">{item.day}</span>
@@ -131,6 +140,13 @@ export default function AdminAnalytics() {
                     </td>
                   </tr>
                 ))}
+                {topPosts.length === 0 && (
+                  <tr>
+                    <td colSpan="4" style={{ textAlign: 'center', color: '#6b7280', padding: '1.5rem' }}>
+                      No published devotionals yet.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
@@ -146,19 +162,19 @@ export default function AdminAnalytics() {
           </div>
 
           <div className="traffic-sources-list">
-            {(analytics.trafficSources || []).map((source, index) => (
+            {trafficSources.map((source, index) => (
               <div key={index} className="traffic-source-item">
                 <div className="source-row-top">
                   <span className="source-name">{source.source}</span>
-                  <span className="source-pct">{source.percentage}%</span>
+                  <span className="source-pct">{source.percentage || 0}%</span>
                 </div>
                 <div className="source-progress-track">
                   <div 
                     className="source-progress-fill" 
-                    style={{ width: `${source.percentage}%` }}
+                    style={{ width: `${source.percentage || 0}%` }}
                   ></div>
                 </div>
-                <span className="source-count">{source.count.toLocaleString()} visits</span>
+                <span className="source-count">{(source.count || 0).toLocaleString()} visits</span>
               </div>
             ))}
           </div>

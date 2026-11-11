@@ -151,8 +151,22 @@ Driven by her faith as a Child of God, Anuoluwapo is the visionary behind The Se
 };
 
 export const initialAnalytics = {
-  total_page_views: 0,
-  devotional_shares: 0,
-  video_clicks: 0,
-  active_subscribers: 0
+  monthlyReads: 0,
+  totalVisitors: 0,
+  scriptureShares: 0,
+  youtubeClicks: 0,
+  weeklyTrend: [
+    { day: 'Mon', reads: 0 },
+    { day: 'Tue', reads: 0 },
+    { day: 'Wed', reads: 0 },
+    { day: 'Thu', reads: 0 },
+    { day: 'Fri', reads: 0 },
+    { day: 'Sat', reads: 0 },
+    { day: 'Sun', reads: 0 }
+  ],
+  trafficSources: [
+    { source: 'WhatsApp / Direct Shares', percentage: 0, count: 0 },
+    { source: 'YouTube (The Sent TV)', percentage: 0, count: 0 },
+    { source: 'Direct Link / Search', percentage: 0, count: 0 }
+  ]
 };

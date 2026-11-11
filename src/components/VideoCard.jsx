@@ -1,8 +1,14 @@
 import { Play, ExternalLink, Calendar } from 'lucide-react';
+import { useData } from '../context/DataContext';
 import './VideoCard.css';
 
 export default function VideoCard({ video }) {
+  const { recordVideoClick } = useData();
   if (!video) return null;
+
+  const handleVideoClick = () => {
+    if (recordVideoClick) recordVideoClick(video.id);
+  };
 
   const formattedDate = new Date(video.created_at).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -15,7 +21,8 @@ export default function VideoCard({ video }) {
       <a 
         href={video.youtube_url} 
         target="_blank" 
-        rel="noopener noreferrer" 
+        rel="noopener noreferrer"
+        onClick={handleVideoClick} 
         className="video-thumb-container"
         aria-label={`Watch ${video.title} on YouTube`}
       >
@@ -41,7 +48,8 @@ export default function VideoCard({ video }) {
         </div>
 
         <h3 className="video-title">
-          <a href={video.youtube_url} target="_blank" rel="noopener noreferrer">
+          <a href={video.youtube_url} target="_blank" rel="noopener noreferrer"
+        onClick={handleVideoClick}>
             {video.title}
           </a>
         </h3>
@@ -53,7 +61,8 @@ export default function VideoCard({ video }) {
         <a 
           href={video.youtube_url} 
           target="_blank" 
-          rel="noopener noreferrer" 
+          rel="noopener noreferrer"
+        onClick={handleVideoClick} 
           className="watch-link"
         >
           <span>Watch on YouTube</span>
