@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import { Plus, Edit, Trash2, Eye, Search, Filter, Calendar, Clock, AlertTriangle, X, Sparkles, Upload, Image as ImageIcon, Check, Loader2 } from 'lucide-react';
 import { useData } from '../../context/DataContext';
 
@@ -329,6 +329,14 @@ export default function AdminPosts() {
                       </td>
                       <td className="text-right">
                         <div className="table-actions right">
+                          <Link
+                            to={`/admin/promo-studio?type=post&id=${post.id}`}
+                            className="action-btn graphic"
+                            title="Create Graphic & Caption"
+                            style={{ color: '#7e22ce', backgroundColor: '#faf5ff' }}
+                          >
+                            <Sparkles size={15} />
+                          </Link>
                           <a 
                             href={`/word/${post.id}`} 
                             target="_blank" 

@@ -21,6 +21,7 @@ import AdminOverview from './pages/admin/AdminOverview';
 import AdminPosts from './pages/admin/AdminPosts';
 import AdminVideos from './pages/admin/AdminVideos';
 import AdminAnalytics from './pages/admin/AdminAnalytics';
+import AdminShareStudio from './pages/admin/AdminShareStudio';
 import AdminSettings from './pages/admin/AdminSettings';
 
 import './App.css';
@@ -65,6 +66,7 @@ export default function App() {
                 <Route path="posts" element={<AdminPosts />} />
                 <Route path="videos" element={<AdminVideos />} />
                 <Route path="analytics" element={<AdminAnalytics />} />
+                <Route path="promo-studio" element={<AdminShareStudio />} />
                 <Route path="settings" element={<AdminSettings />} />
               </Route>
 

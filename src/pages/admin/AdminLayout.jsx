@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { NavLink, Outlet, Link, useNavigate, Navigate } from 'react-router-dom';
-import { LayoutDashboard, BookOpen, Video, BarChart3, Settings, LogOut, Globe, Heart, Menu, X } from 'lucide-react';
+import { LayoutDashboard, BookOpen, Video, BarChart3, Settings, LogOut, Globe, Heart, Menu, X, Sparkles } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import './Admin.css';
 
@@ -85,6 +85,15 @@ export default function AdminLayout() {
           >
             <Video size={18} />
             <span>YouTube Videos</span>
+          </NavLink>
+
+          <NavLink 
+            to="/admin/promo-studio" 
+            onClick={closeMenu}
+            className={({ isActive }) => isActive ? 'side-item active' : 'side-item'}
+          >
+            <Sparkles size={18} />
+            <span>Daily Graphics Studio</span>
           </NavLink>
 
           <NavLink 

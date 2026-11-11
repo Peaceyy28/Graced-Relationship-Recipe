@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import { Plus, Edit, Trash2, ExternalLink, Search, X, AlertTriangle, Video, Play } from 'lucide-react';
 import { useData } from '../../context/DataContext';
 
@@ -167,6 +167,14 @@ export default function AdminVideos() {
                     <td>{new Date(video.created_at).toLocaleDateString()}</td>
                     <td className="text-right">
                       <div className="table-actions right">
+                        <Link
+                          to={`/admin/promo-studio?type=video&id=${video.id}`}
+                          className="action-btn graphic"
+                          title="Create Graphic & Caption"
+                          style={{ color: '#7e22ce', backgroundColor: '#faf5ff' }}
+                        >
+                          <Sparkles size={15} />
+                        </Link>
                         <button 
                           onClick={() => openEditModal(video)} 
                           className="action-btn edit" 

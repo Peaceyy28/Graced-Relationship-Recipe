@@ -1186,3 +1186,231 @@
     font-size: 0.78rem;
   }
 }
+
+/* Daily Graphics & Caption Studio Styles */
+.studio-layout {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 1.75rem;
+  align-items: start;
+}
+
+.studio-tabs-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 1rem;
+}
+
+.studio-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.15rem;
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg-subtle);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.studio-tab-btn.active {
+  background: #faf5ff;
+  color: var(--brand-primary);
+  border-color: #d8b4fe;
+}
+
+.studio-controls-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.studio-controls-grid select {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  color: var(--text-main);
+  background: #ffffff;
+}
+
+.studio-options-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.studio-option-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.studio-option-group label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.pill-toggle-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.pill-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid var(--border-light);
+  background: #ffffff;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pill-toggle-btn.active {
+  background: var(--brand-primary);
+  color: #ffffff;
+  border-color: var(--brand-primary);
+}
+
+.canvas-preview-stage {
+  background: #f4f4f5;
+  border: 1px dashed #d4d4d8;
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.studio-canvas-element {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14);
+}
+
+.canvas-preview-stage.square .studio-canvas-element {
+  max-height: 440px;
+}
+
+.canvas-preview-stage.status .studio-canvas-element {
+  max-height: 520px;
+}
+
+.studio-export-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.caption-editor-wrap {
+  margin-bottom: 1rem;
+}
+
+.caption-textarea {
+  width: 100%;
+  padding: 0.9rem;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text-main);
+  background: #fafafa;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.caption-textarea:focus {
+  outline: none;
+  border-color: var(--brand-primary);
+  background: #ffffff;
+}
+
+.caption-actions-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.copy-caption-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.78rem 1.2rem;
+  border-radius: var(--radius-md);
+  background: var(--brand-primary);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.92rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.copy-caption-btn:hover {
+  background: #6b21a8;
+}
+
+.copy-caption-btn.copied {
+  background: #059669;
+}
+
+.whatsapp-share-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.75rem 1.2rem;
+  border-radius: var(--radius-md);
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.whatsapp-share-btn:hover {
+  background: #d1fae5;
+}
+
+.morning-workflow-tip {
+  background: #faf5ff;
+  border: 1px solid #e9d5ff;
+  border-radius: var(--radius-md);
+  padding: 1rem 1.15rem;
+  font-size: 0.84rem;
+  color: #4c1d95;
+  line-height: 1.55;
+}
+
+.morning-workflow-tip ol {
+  margin: 0.5rem 0 0 1.2rem;
+  padding: 0;
+}
+
+@media (max-width: 1024px) {
+  .studio-layout {
+    grid-template-columns: 1fr;
+  }
+}
