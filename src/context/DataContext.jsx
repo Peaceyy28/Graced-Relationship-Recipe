@@ -329,26 +329,46 @@ export function DataProvider({ children }) {
     syncYouTubeVideos(false);
   }, [settings.youtube_channel_id]);
 
-  // Smart Public & Scheduled Filtering
-  const now = new Date().getTime();
+  // Live 60-second clock tick so scheduled posts auto-release on time without page refresh
+  const [nowMs, setNowMs] = useState(() => Date.now());
+  useEffect(() => {
+    const timer = setInterval(() => setNowMs(Date.now()), 60000);
+    return () => clearInterval(timer);
+  }, []);
 
-  // Public sees: published posts OR scheduled posts whose scheduled_for time has passed!
-  const publishedPosts = posts.filter(p => {
-    if (p.status === 'published') return true;
-    if (p.status === 'scheduled' && p.scheduled_for) {
-      return now >= new Date(p.scheduled_for).getTime();
+  const getEffectivePublishTime = (post) => {
+    if (post.status === 'scheduled' && post.scheduled_for) {
+      return new Date(post.scheduled_for).getTime();
     }
-    return false;
-  });
+    return new Date(post.published_at || post.created_at || 0).getTime();
+  };
 
-  // Scheduled queue: posts waiting in the queue for a future date/time
-  const scheduledPosts = posts.filter(p => {
-    if (p.status === 'scheduled') {
-      if (!p.scheduled_for) return true;
-      return now < new Date(p.scheduled_for).getTime();
-    }
-    return false;
-  });
+  // Public sees published posts OR scheduled posts whose scheduled_for time has passed,
+  // strictly ordered by newest effective publish/release date first!
+  const publishedPosts = posts
+    .filter(p => {
+      if (p.status === 'published') return true;
+      if (p.status === 'scheduled' && p.scheduled_for) {
+        return nowMs >= new Date(p.scheduled_for).getTime();
+      }
+      return false;
+    })
+    .sort((a, b) => getEffectivePublishTime(b) - getEffectivePublishTime(a));
+
+  // Scheduled queue: upcoming posts sorted chronologically (soonest release first)
+  const scheduledPosts = posts
+    .filter(p => {
+      if (p.status === 'scheduled') {
+        if (!p.scheduled_for) return true;
+        return nowMs < new Date(p.scheduled_for).getTime();
+      }
+      return false;
+    })
+    .sort((a, b) => {
+      const ta = a.scheduled_for ? new Date(a.scheduled_for).getTime() : Infinity;
+      const tb = b.scheduled_for ? new Date(b.scheduled_for).getTime() : Infinity;
+      return ta - tb;
+    });
 
   const draftPosts = posts.filter(p => p.status === 'draft');
   const latestPost = publishedPosts[0] || null;
