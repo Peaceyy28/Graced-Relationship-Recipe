@@ -153,7 +153,7 @@ export default function DailyExerciseCard({ standalone = false }) {
         ) : (
           /* Active Interactive Game View */
           <div className="active-game-view">
-            <h3 className="exercise-headline">{exercise.tagline}</h3>
+            <h3 className="exercise-headline">{(exercise.tagline || "").replace(/^Day\s+\d+\s*[•\-–—]\s*/i, "")}</h3>
 
             {/* Mode 1: Word Unscramble */}
             {exercise.type === 'unscramble' && (

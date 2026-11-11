@@ -1,18 +1,35 @@
 import { useState } from 'react';
-import { Search, ExternalLink, Play } from 'lucide-react';
+import { Search, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
 import YoutubeIcon from '../components/YoutubeIcon';
 import { useData } from '../context/DataContext';
 import VideoCard from '../components/VideoCard';
 import './Videos.css';
 
+const PAGE_SIZE = 5;
+
 export default function Videos() {
   const { videos, settings } = useData();
   const [searchQuery, setSearchQuery] = useState('');
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    setVisibleCount(PAGE_SIZE);
+  };
+
+  const handleClearSearch = () => {
+    setSearchQuery('');
+    setVisibleCount(PAGE_SIZE);
+  };
 
   const filteredVideos = videos.filter(v => {
-    const q = searchQuery.toLowerCase();
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return true;
     return v.title.toLowerCase().includes(q) || (v.description && v.description.toLowerCase().includes(q));
   });
+
+  const visibleVideos = filteredVideos.slice(0, visibleCount);
+  const remainingCount = Math.max(0, filteredVideos.length - visibleVideos.length);
 
   return (
     <div className="videos-page">
@@ -45,25 +62,35 @@ export default function Videos() {
 
       {/* Main Content Area */}
       <div className="videos-content-container">
-        {/* Search */}
-        <div className="videos-toolbar">
+        {/* Search & Count Toolbar */}
+        <form
+          className="videos-toolbar"
+          onSubmit={(e) => e.preventDefault()}
+        >
           <div className="video-search-box">
             <Search size={18} className="search-icon" />
             <input 
               type="text" 
               placeholder="Search videos by title or topic..." 
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={handleSearchChange}
               className="video-search-input"
+              aria-label="Search videos"
             />
             {searchQuery && (
-              <button onClick={() => setSearchQuery('')} className="clear-btn">
+              <button type="button" onClick={handleClearSearch} className="clear-btn" aria-label="Clear search">
                 ✕
               </button>
             )}
           </div>
-          <span className="video-count">{filteredVideos.length} {filteredVideos.length === 1 ? 'Video' : 'Videos'}</span>
-        </div>
+          <button type="submit" className="video-search-submit-btn">
+            <Search size={15} />
+            <span>Search</span>
+          </button>
+          <span className="video-count">
+            Showing {visibleVideos.length} of {filteredVideos.length} {filteredVideos.length === 1 ? 'Video' : 'Videos'}
+          </span>
+        </form>
 
         {/* Video Grid */}
         {videos.length === 0 ? (
@@ -89,16 +116,44 @@ export default function Videos() {
         ) : filteredVideos.length === 0 ? (
           <div className="videos-empty">
             <p>No video teachings found matching "{searchQuery}".</p>
-            <button onClick={() => setSearchQuery('')} className="reset-btn">
+            <button onClick={handleClearSearch} className="reset-btn">
               View All Videos
             </button>
           </div>
         ) : (
-          <div className="videos-grid-page">
-            {filteredVideos.map(video => (
-              <VideoCard key={video.id} video={video} />
-            ))}
-          </div>
+          <>
+            <div className="videos-grid-page">
+              {visibleVideos.map(video => (
+                <VideoCard key={video.id} video={video} />
+              ))}
+            </div>
+
+            {(remainingCount > 0 || visibleCount > PAGE_SIZE) && (
+              <div className="videos-pagination-controls">
+                {remainingCount > 0 && (
+                  <button
+                    type="button"
+                    className="see-more-videos-btn"
+                    onClick={() => setVisibleCount(prev => prev + PAGE_SIZE)}
+                  >
+                    <span>See More Videos ({remainingCount} remaining)</span>
+                    <ChevronDown size={17} />
+                  </button>
+                )}
+
+                {visibleCount > PAGE_SIZE && (
+                  <button
+                    type="button"
+                    className="show-less-videos-btn"
+                    onClick={() => setVisibleCount(PAGE_SIZE)}
+                  >
+                    <span>Show Less</span>
+                    <ChevronUp size={16} />
+                  </button>
+                )}
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
